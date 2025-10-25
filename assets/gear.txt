@@ -1,0 +1,1 @@
+Gear asset placeholder - This represents a 3D mechanical gear model preview.

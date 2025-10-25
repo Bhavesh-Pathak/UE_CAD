@@ -1,0 +1,1 @@
+Room asset placeholder - This represents a 3D environment room model preview.

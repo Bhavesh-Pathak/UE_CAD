@@ -1,0 +1,3 @@
+AIM: Set up the initial CAD/UE stub API with FastAPI, including endpoint for generating previews, static assets for cube and chair, and basic testing.
+
+PROGRESS: Completed project setup, installed dependencies, created FastAPI app with /stub/generate POST endpoint that accepts JSON spec and returns preview_url. Added static file serving for assets. Tested endpoint successfully with cube and chair types. Static files are accessible. Grateful for smooth setup and working tools.

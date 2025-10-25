@@ -1,0 +1,3 @@
+AIM: Expand the stub with additional assets (gear, room), update endpoint logic, document formats, and perform integration testing.
+
+PROGRESS: Added gear.txt and room.txt placeholders. Updated /stub/generate to handle "gear" and "room" types. Created docs/api_formats.md with input/output specifications. Simulated integration by testing all asset types via API calls. All endpoints return correct URLs. Grateful for smooth expansion and clear documentation.

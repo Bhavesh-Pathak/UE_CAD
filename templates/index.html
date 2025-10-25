@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAD/UE Asset Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: black; color: white; }
+        #viewer { width: 800px; height: 600px; border: 1px solid #ccc; }
+        input, button { margin: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>CAD/UE Asset Viewer</h1>
+    <input type="text" id="assetInput" placeholder="Type 'cube', 'chair', 'gear', or 'room'">
+    <button onclick="loadAsset()">Show Asset</button>
+    <div id="viewer"></div>
+
+    <script>
+        let scene, camera, renderer, loader, controls;
+
+        function initViewer() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, 800 / 600, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(800, 600);
+            renderer.setClearColor(0xffffff);  // White background
+            document.getElementById('viewer').appendChild(renderer.domElement);
+
+            loader = new THREE.GLTFLoader();
+
+            // Add controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            // Add light
+            const light = new THREE.AmbientLight(0x404040);
+            scene.add(light);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+
+            camera.position.z = 5;
+        }
+
+        function loadAsset() {
+            const assetType = document.getElementById('assetInput').value.trim().toLowerCase();
+            if (!assetType) return;
+
+            fetch('/stub/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: assetType })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const url = data.preview_url;
+                loadGLB(url);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function loadGLB(url) {
+            // Clear previous model
+            while (scene.children.length > 0) {
+                scene.remove(scene.children[0]);
+            }
+            // Re-add lights
+            const light = new THREE.AmbientLight(0x404040);
+            scene.add(light);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+
+            loader.load(url, function (gltf) {
+                scene.add(gltf.scene);
+            }, undefined, function (error) {
+                console.error('Error loading GLB:', error);
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        initViewer();
+        animate();
+    </script>
+</body>
+</html>

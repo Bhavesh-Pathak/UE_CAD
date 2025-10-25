@@ -1,0 +1,1 @@
+Cube asset placeholder - This represents a 3D cube model preview.

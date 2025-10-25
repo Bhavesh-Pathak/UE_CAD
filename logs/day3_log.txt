@@ -1,0 +1,3 @@
+AIM: Polish & Integration: Clean asset hosting (local /assets), confirm preview loads in frontend, push updates, log AIM/PROGRESS.
+
+PROGRESS: Updated api_formats.md to reflect .glb files. Frontend code is set up to load GLB assets via API. Assets hosted locally at /assets. Integration ready for Yash's frontend viewer. Grateful for smooth polishing and clear documentation.
